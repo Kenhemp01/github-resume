@@ -13,46 +13,21 @@ const badgeURL =
 const markdown =
     `[![GitHub Resume](${badgeURL})](${resumeURL})`;
 
-const badge =
-    document.getElementById("badge");
-
-const markdownBox =
-    document.getElementById("markdown");
-
-const copyButton =
-    document.getElementById("copy-button");
-
-markdownBox.value =
-    markdown;
-
-badge.onload = () => {
-
-    badge.style.display =
-        "inline-block";
-
-};
-
-badge.onerror = () => {
-
-    console.error(
-        "Could not load GitHub Resume badge."
-    );
-
-};
-
-badge.src =
+document.getElementById("badge").src =
     badgeURL;
 
-copyButton.addEventListener(
-    "click",
-    async () => {
+document.getElementById("markdown").value =
+    markdown;
+
+document
+    .getElementById("copy-button")
+    .addEventListener("click", async () => {
 
         await navigator.clipboard.writeText(
             markdown
         );
 
-        copyButton.textContent =
-            "Copied!";
-
-    }
-);
+        document.getElementById(
+            "copy-button"
+        ).textContent = "Copied!";
+    });
