@@ -21,25 +21,40 @@ form.addEventListener("submit", async (event) => {
     errorMessage.textContent =
         "Checking GitHub profile...";
 
-    try {
+   try {
 
-        const response =
-            await fetch(`/api/resume/${username}`);
+    const response =
+        await fetch(`/api/resume/${username}`);
 
-        if (!response.ok) {
-            throw new Error(
-                "GitHub user not found."
-            );
-        }
+    if (!response.ok) {
 
-        window.location.href =
-            `/embed/${username}`;
+        const errorText =
+            await response.text();
 
-    } catch (error) {
+        console.error(
+            "API Error:",
+            response.status,
+            errorText
+        );
 
-        errorMessage.textContent =
-            "Could not find that GitHub user.";
-
+        throw new Error(
+            `Request failed: ${response.status}`
+        );
     }
+
+    window.location.href =
+        `/embed/${username}`;
+
+} catch (error) {
+
+    console.error(
+        "Generator Error:",
+        error
+    );
+
+    errorMessage.textContent =
+        "Could not generate the resume. Please try again.";
+
+}
 
 });
