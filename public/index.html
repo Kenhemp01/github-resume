@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>GitHub Resume Generator</title>
+
+    <link rel="stylesheet" href="/style.css">
+
+</head>
+
+<body>
+
+    <main class="home-page">
+
+        <h1>
+            GitHub Resume Generator
+        </h1>
+
+        <p>
+            Turn your GitHub profile into a resume
+            you can embed in your GitHub README.
+        </p>
+
+        <form id="username-form">
+
+            <label for="username">
+                GitHub Username
+            </label>
+
+            <input
+                id="username"
+                type="text"
+                placeholder="e.g. Kenhemp01"
+                required
+            >
+
+            <button type="submit">
+                Generate Resume
+            </button>
+
+        </form>
+
+        <p id="error-message"></p>
+
+    </main>
+
+    <script src="/index.js"></script>
+
+</body>
+
+</html>
