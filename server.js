@@ -338,16 +338,35 @@ app.get("/api/resume/:username", async (req, res) => {
 
         // Get GitHub profile
         const userResponse = await fetch(
-            `https://api.github.com/users/${username}`
-        );
-
-        if (!userResponse.ok) {
-            return res.status(404).json({
-                error: "GitHub user not found."
-            });
+    `https://api.github.com/users/${username}`,
+    {
+        headers: {
+            "Accept": "application/vnd.github+json",
+            "User-Agent": "GitHub-Resume-Generator"
         }
+    }
+);
 
-        const user = await userResponse.json();
+if (!userResponse.ok) {
+
+    const errorDetails =
+        await userResponse.text();
+
+    console.error(
+        "GitHub API error:",
+        userResponse.status,
+        errorDetails
+    );
+
+    return res.status(userResponse.status).json({
+        error: "GitHub API request failed.",
+        status: userResponse.status,
+        details: errorDetails
+    });
+}
+
+const user =
+    await userResponse.json();
 
         // Get all repositories
         const repositories =
