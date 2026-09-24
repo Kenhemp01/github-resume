@@ -60,7 +60,6 @@ function calculateProjectScore(repo) {
     return score;
 }
 
-
 // Serve files from the public folder
 
 app.use(express.static(path.join(__dirname, "public")));
@@ -160,8 +159,7 @@ function extractProjectSummary(readme, description) {
         .map(line => line.trim())
         .filter(line => line.length > 0);
 
-    // Look for a paragraph near the beginning
-    // of the README.
+  
     for (let i = 0; i < Math.min(lines.length, 20); i++) {
 
         const line = lines[i];
@@ -204,7 +202,7 @@ function extractProjectSummary(readme, description) {
         }
     }
 
-    // Fall back to the GitHub repository description.
+    
     return description || "No project description available.";
 }
 
