@@ -11,44 +11,34 @@ function calculateProjectScore(repo) {
 
     let score = 0;
 
-    // Has a description
+   
     if (repo.description) {
         score += 5;
     }
 
-    // Has a README
-    if (repo.readme) {
-        score += 5;
-    }
-
-    // Has a programming language
+ 
     if (repo.language) {
         score += 4;
     }
 
-    // Has topics
+ 
     if (repo.topics && repo.topics.length > 0) {
         score += 3;
     }
 
-    // Stars
+    
     score += Math.min(
         repo.stargazers_count * 2,
         10
     );
 
-    // Forks
+    
     score += Math.min(
         repo.forks_count,
         5
     );
 
-    // Original repository
-    if (!repo.fork) {
-        score += 5;
-    }
-
-    // Recent activity
+   
     const lastUpdated =
         new Date(repo.updated_at);
 
@@ -372,29 +362,8 @@ const user =
         const repositories =
             await getAllRepositories(username);
 
-        // Score repositories
-      // Get README information
-// Get README and language information
-for (const repo of repositories) {
+      
 
-    repo.readme =
-        await getRepositoryReadme(
-            username,
-            repo.name
-        );
-
-    repo.projectSummary =
-        extractProjectSummary(
-            repo.readme,
-            repo.description
-        );
-
-    repo.languages =
-        await getRepositoryLanguages(
-            username,
-            repo.name
-        );
-}
 
 // Score repositories
 const originalRepositories =
@@ -421,6 +390,27 @@ scoredRepositories.sort((a, b) => {
 // Select top five repositories
 const featuredRepositories =
     scoredRepositories.slice(0, 5);
+
+for (const repo of featuredRepositories) {
+
+    repo.readme =
+        await getRepositoryReadme(
+            username,
+            repo.name
+        );
+
+    repo.projectSummary =
+        extractProjectSummary(
+            repo.readme,
+            repo.description
+        );
+
+    repo.languages =
+        await getRepositoryLanguages(
+            username,
+            repo.name
+        );
+}
         // Calculate GitHub statistics
         const totalStars = repositories.reduce(
             (total, repo) =>
