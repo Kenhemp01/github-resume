@@ -255,12 +255,29 @@ app.get("/badge/:username", async (req, res) => {
     try {
 
         const response = await fetch(
-            `https://api.github.com/users/${username}`
+            `https://api.github.com/users/${username}`,
+            {
+                headers: {
+                    "Accept": "application/vnd.github+json",
+                    "Authorization": `Bearer ${process.env.GITHUB_TOKEN}`,
+                    "User-Agent": "GitHub-Resume-Generator"
+                }
+            }
         );
 
         if (!response.ok) {
-            return res.status(404).send(
-                "GitHub user not found."
+
+            const errorDetails =
+                await response.text();
+
+            console.error(
+                "GitHub badge API error:",
+                response.status,
+                errorDetails
+            );
+
+            return res.status(response.status).send(
+                "Could not retrieve GitHub user."
             );
         }
 
