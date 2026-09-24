@@ -94,8 +94,10 @@ async function getRepositoryReadme(username, repositoryName) {
             `https://api.github.com/repos/${username}/${repositoryName}/readme`,
             {
                 headers: {
-                    "Accept": "application/vnd.github.raw+json"
-                }
+    "Accept": "application/vnd.github.raw+json",
+    "Authorization": `Bearer ${process.env.GITHUB_TOKEN}`,
+    "User-Agent": "GitHub-Resume-Generator"
+}
             }
         );
 
@@ -121,8 +123,15 @@ async function getRepositoryLanguages(username, repositoryName) {
     try {
 
         const response = await fetch(
-            `https://api.github.com/repos/${username}/${repositoryName}/languages`
-        );
+    `https://api.github.com/repos/${username}/${repositoryName}/languages`,
+    {
+        headers: {
+            "Accept": "application/vnd.github+json",
+            "Authorization": `Bearer ${process.env.GITHUB_TOKEN}`,
+            "User-Agent": "GitHub-Resume-Generator"
+        }
+    }
+);
 
         if (!response.ok) {
             return {};
@@ -207,8 +216,15 @@ async function getAllRepositories(username) {
     while (true) {
 
         const response = await fetch(
-            `https://api.github.com/users/${username}/repos?per_page=100&page=${page}`
-        );
+    `https://api.github.com/users/${username}/repos?per_page=100&page=${page}`,
+    {
+        headers: {
+            "Accept": "application/vnd.github+json",
+            "Authorization": `Bearer ${process.env.GITHUB_TOKEN}`,
+            "User-Agent": "GitHub-Resume-Generator"
+        }
+    }
+);
 
         if (!response.ok) {
             throw new Error(
@@ -332,6 +348,7 @@ app.get("/api/resume/:username", async (req, res) => {
     {
         headers: {
             "Accept": "application/vnd.github+json",
+            "Authorization": `Bearer ${process.env.GITHUB_TOKEN}`,
             "User-Agent": "GitHub-Resume-Generator"
         }
     }
